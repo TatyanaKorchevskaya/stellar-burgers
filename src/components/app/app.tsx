@@ -33,7 +33,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-            <Route
+        <Route
           path='/register'
           element={
             <ProtectedRoute unAuthOnly>

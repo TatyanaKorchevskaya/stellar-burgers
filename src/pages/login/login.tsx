@@ -10,14 +10,14 @@ export const Login: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(fetchLoginUser({
-      email: email,
-      password: password
-    }))
-    .then((data) => {
+    dispatch(
+      fetchLoginUser({
+        email: email,
+        password: password
+      })
+    ).then((data) => {
       console.log(data);
-      
-    })
+    });
   };
 
   return (

@@ -2,11 +2,15 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
-import { selectConstructorItems, selectOrderModalData, selectOrderRequest } from '../../slices/stellarBurgerSlice';
+import {
+  selectConstructorItems,
+  selectOrderModalData,
+  selectOrderRequest
+} from '../../slices/stellarBurgerSlice';
 
 export const BurgerConstructor: FC = () => {
-const dispatch = useBurgerDispatch()
-  const constructorItems = useBurgerSelector(selectConstructorItems)
+  const dispatch = useBurgerDispatch();
+  const constructorItems = useBurgerSelector(selectConstructorItems);
 
   const orderRequest = useBurgerSelector(selectOrderRequest);
 

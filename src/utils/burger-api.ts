@@ -73,14 +73,14 @@ type TOrdersResponse = TServerResponse<{
 
 export const getIngredientsApi = () => {
   console.log('fetch i');
-  
+
   return fetch(`https://norma.nomoreparties.space/api/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
       if (data?.success) return data.data;
       return Promise.reject(data);
     });
-}
+};
 
 export const getFeedsApi = () =>
   fetch(`https://norma.nomoreparties.space/api/orders/all`)
@@ -91,13 +91,16 @@ export const getFeedsApi = () =>
     });
 
 export const getOrdersApi = () =>
-  fetchWithRefresh<TFeedsResponse>(`https://norma.nomoreparties.space/api/orders`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
-    } as HeadersInit
-  }).then((data) => {
+  fetchWithRefresh<TFeedsResponse>(
+    `https://norma.nomoreparties.space/api/orders`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        authorization: getCookie('accessToken')
+      } as HeadersInit
+    }
+  ).then((data) => {
     if (data?.success) return data.orders;
     return Promise.reject(data);
   });
@@ -108,16 +111,19 @@ type TNewOrderResponse = TServerResponse<{
 }>;
 
 export const orderBurgerApi = (data: string[]) =>
-  fetchWithRefresh<TNewOrderResponse>(`https://norma.nomoreparties.space/api/orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
-    } as HeadersInit,
-    body: JSON.stringify({
-      ingredients: data
-    })
-  }).then((data) => {
+  fetchWithRefresh<TNewOrderResponse>(
+    `https://norma.nomoreparties.space/api/orders`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        authorization: getCookie('accessToken')
+      } as HeadersInit,
+      body: JSON.stringify({
+        ingredients: data
+      })
+    }
+  ).then((data) => {
     if (data?.success) return data;
     return Promise.reject(data);
   });
@@ -210,21 +216,27 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
 type TUserResponse = TServerResponse<{ user: TUser }>;
 
 export const getUserApi = () =>
-  fetchWithRefresh<TUserResponse>(`https://norma.nomoreparties.space/api/auth/user`, {
-    headers: {
-      authorization: getCookie('accessToken')
-    } as HeadersInit
-  });
+  fetchWithRefresh<TUserResponse>(
+    `https://norma.nomoreparties.space/api/auth/user`,
+    {
+      headers: {
+        authorization: getCookie('accessToken')
+      } as HeadersInit
+    }
+  );
 
 export const updateUserApi = (user: Partial<TRegisterData>) =>
-  fetchWithRefresh<TUserResponse>(`https://norma.nomoreparties.space/api/auth/user`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
-    } as HeadersInit,
-    body: JSON.stringify(user)
-  });
+  fetchWithRefresh<TUserResponse>(
+    `https://norma.nomoreparties.space/api/auth/user`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        authorization: getCookie('accessToken')
+      } as HeadersInit,
+      body: JSON.stringify(user)
+    }
+  );
 
 export const logoutApi = () =>
   fetch(`https://norma.nomoreparties.space/api/auth/logout`, {

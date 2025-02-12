@@ -13,15 +13,16 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(fetchRegisterUser({
-      email: email,
-      name: userName,
-      password: password,
-    }))
-    .then((payload) => {
+    dispatch(
+      fetchRegisterUser({
+        email: email,
+        name: userName,
+        password: password
+      })
+    ).then((payload) => {
       // localStorage
       // setCookie('accessToken', payload.accessToken)
-    })
+    });
   };
 
   return (
