@@ -1,10 +1,13 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
+import { selectUserOrders } from '../../slices/stellarBurgerSlice';
 
 export const ProfileOrders: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const dispatch = useBurgerDispatch();
+ useEffect(() => {}, [])
+  const orders: TOrder[] = useBurgerSelector(selectUserOrders) || [];
 
   return <ProfileOrdersUI orders={orders} />;
 };

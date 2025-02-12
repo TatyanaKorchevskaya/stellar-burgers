@@ -3,21 +3,32 @@ import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
 import {
+  fetchNewOrder,
   selectConstructorItems,
+  selectIsAuthenticated,
   selectOrderModalData,
   selectOrderRequest
 } from '../../slices/stellarBurgerSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useBurgerDispatch();
   const constructorItems = useBurgerSelector(selectConstructorItems);
-
   const orderRequest = useBurgerSelector(selectOrderRequest);
-
   const orderModalData = useBurgerSelector(selectOrderModalData);
+  const isAuthenticated = useBurgerSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    // if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthenticated) return navigate('/login');
+    const ingredientsId = constructorItems.ingredients.map((item) => item._id);
+    dispatch(fetchNewOrder([
+      constructorItems.bun._id,
+      ...ingredientsId,
+  
+    ]))
   };
   const closeOrderModal = () => {};
 

@@ -2,7 +2,9 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { useBurgerDispatch } from '../../services/store';
 import { fetchRegisterUser } from '../../slices/stellarBurgerSlice';
-import { setCookie } from 'src/utils/cookie';
+import { setCookie } from '../../utils/cookie';
+import { refreshToken } from '@api';
+import { getUserThunk } from '../../slices/stellarBurgerSlice';
 
 export const Register: FC = () => {
   const dispatch = useBurgerDispatch();
@@ -19,10 +21,13 @@ export const Register: FC = () => {
         name: userName,
         password: password
       })
-    ).then((payload) => {
-      // localStorage
-      // setCookie('accessToken', payload.accessToken)
-    });
+    )
+      .unwrap()
+      .then((payload) => {
+        localStorage.setItem('refreshToken', payload.refreshToken);
+        setCookie('accessToken', payload.accessToken);
+        dispatch(getUserThunk());
+      });
   };
 
   return (
