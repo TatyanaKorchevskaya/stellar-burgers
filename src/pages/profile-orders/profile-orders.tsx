@@ -2,12 +2,27 @@ import { ProfileOrdersUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
-import { selectUserOrders } from '../../slices/stellarBurgerSlice';
+import {
+  fetchIngredients,
+  fetchUserOrders,
+  removeUserOrders,
+  selectUserOrders
+} from '../../slices/stellarBurgerSlice';
+import { Preloader } from '@ui';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useBurgerDispatch();
- useEffect(() => {}, [])
-  const orders: TOrder[] = useBurgerSelector(selectUserOrders) || [];
+  useEffect(() => {
+    dispatch(removeUserOrders());
+    Promise.all([dispatch(fetchIngredients()), dispatch(fetchUserOrders())]);
+  }, []);
+  const orders = useBurgerSelector(selectUserOrders);
+  console.log(orders, !orders);
 
+  if (!orders) {
+    console.log('ggggggg');
+
+    return <Preloader />;
+  }
   return <ProfileOrdersUI orders={orders} />;
 };

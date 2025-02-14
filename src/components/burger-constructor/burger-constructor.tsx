@@ -7,10 +7,10 @@ import {
   selectConstructorItems,
   selectIsAuthenticated,
   selectOrderModalData,
-  selectOrderRequest
+  selectOrderRequest,
+  closeOrderRequest
 } from '../../slices/stellarBurgerSlice';
 import { useNavigate } from 'react-router-dom';
-
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useBurgerDispatch();
@@ -21,16 +21,24 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
 
   const onOrderClick = () => {
-    // if (!constructorItems.bun || orderRequest) return;
-    if (!isAuthenticated) return navigate('/login');
-    const ingredientsId = constructorItems.ingredients.map((item) => item._id);
-    dispatch(fetchNewOrder([
-      constructorItems.bun._id,
-      ...ingredientsId,
-  
-    ]))
+    // TODO: сделать проверку авторизации
+    if (constructorItems.bun._id && constructorItems.ingredients.length) {
+      const ingredientsIds = constructorItems.ingredients.map(
+        (item) => item._id
+      );
+      dispatch(
+        fetchNewOrder([
+          constructorItems.bun._id,
+          ...ingredientsIds,
+          constructorItems.bun._id
+        ])
+      );
+    }
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(closeOrderRequest());
+  };
 
   const price = useMemo(
     () =>

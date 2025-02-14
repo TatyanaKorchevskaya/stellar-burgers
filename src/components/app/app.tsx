@@ -1,4 +1,11 @@
-import { ConstructorPage, Feed, Login, ProfileOrders, Register } from '@pages';
+import {
+  ConstructorPage,
+  Feed,
+  Login,
+  Profile,
+  ProfileOrders,
+  Register
+} from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -41,7 +48,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/profile/orders'
           element={
@@ -50,7 +64,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
       </Routes>
     </div>
   );
