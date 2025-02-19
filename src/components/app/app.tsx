@@ -9,17 +9,38 @@ import {
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader } from '@components';
-import { Route, Routes } from 'react-router-dom';
-import { useBurgerDispatch } from '../../services/store';
+import { AppHeader, IngredientDetails, Modal } from '@components';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
 import { useEffect } from 'react';
-import { fetchIngredients, init } from '../../slices/stellarBurgerSlice';
+import {
+  closeModal,
+  fetchIngredients,
+  getUserThunk,
+  init,
+  selectIsAuthenticated,
+  selectIsModalOpened
+} from '../../slices/stellarBurgerSlice';
 import { ProtectedRoute } from '../protected-route/protectedRoute';
+import { getCookie } from '../../utils/cookie';
 
 const App = () => {
   const dispatch = useBurgerDispatch();
+  const token = getCookie('accessToken');
+  const isAuth = useBurgerSelector(selectIsAuthenticated);
+  const location = useLocation();
+  const background = location.state?.background;
+  const isModalOpen = useBurgerSelector(selectIsModalOpened);
   useEffect(() => {
-    dispatch(init());
+    if (!isAuth && token) {
+      dispatch(getUserThunk())
+        .unwrap()
+        .then(() => {
+          dispatch(init());
+        });
+    } else {
+      dispatch(init());
+    }
   }, []);
   // TODO: избавиться от костыля
   useEffect(() => {
@@ -29,7 +50,7 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       {/* <ConstructorPage /> */}
-      <Routes>
+      <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
@@ -64,7 +85,26 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
       </Routes>
+
+      {isModalOpen && background && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal
+                title='hhhh'
+                onClose={() => {
+                  dispatch(closeModal());
+                }}
+              >
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

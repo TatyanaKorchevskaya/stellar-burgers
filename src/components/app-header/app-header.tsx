@@ -5,5 +5,5 @@ import { selectUser } from '../../slices/stellarBurgerSlice';
 
 export const AppHeader: FC = () => {
   const user = useBurgerSelector(selectUser);
-  return <AppHeaderUI userName={user.email} />;
+  return <AppHeaderUI userName={user.name} />;
 };
