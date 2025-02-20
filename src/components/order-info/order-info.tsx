@@ -1,24 +1,34 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import {
+  fetchFeed,
+  fetchIngredients,
+  selectIngredients,
+  selectOrders
+} from '../../slices/stellarBurgerSlice';
+import { setTimeout } from 'timers/promises';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useBurgerDispatch();
 
-  const ingredients: TIngredient[] = [];
+  const params = useParams<{ id: string }>();
+  const orderId = params.id;
+  const orders = useBurgerSelector(selectOrders);
+  const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
+  useEffect(() => {
+    Promise.all([dispatch(fetchIngredients()), dispatch(fetchFeed())]);
+  }, []);
+
+  const orderData = orders.find((item) => item._id == orderId);
 
   /* Готовим данные для отображения */
+  
   const orderInfo = useMemo(() => {
+    console.log(orders, orderData, ingredients);
     if (!orderData || !ingredients.length) return null;
 
     const date = new Date(orderData.createdAt);
