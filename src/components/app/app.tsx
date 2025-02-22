@@ -1,10 +1,12 @@
 import {
   ConstructorPage,
   Feed,
+  ForgotPassword,
   Login,
   Profile,
   ProfileOrders,
-  Register
+  Register,
+  ResetPassword
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
@@ -85,6 +87,22 @@ const App = () => {
           element={
             <ProtectedRoute unAuthOnly>
               <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute unAuthOnly>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute unAuthOnly>
+              <ResetPassword />
             </ProtectedRoute>
           }
         />

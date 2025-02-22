@@ -15,9 +15,9 @@ import { openModal } from '../../../slices/stellarBurgerSlice';
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
   ({ orderInfo, maxIngredients, locationState }) => {
     const dispatch = useBurgerDispatch();
-  const handleClick = ()=>{
-    dispatch(openModal())
-  }
+    const handleClick = () => {
+      dispatch(openModal());
+    };
     return (
       <Link
         to={orderInfo.number.toString()}
