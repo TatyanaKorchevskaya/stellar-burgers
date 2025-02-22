@@ -106,7 +106,14 @@ const App = () => {
         />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='/feed/:id' element={<OrderInfo />} />
-        
+        <Route
+          path='/profile/orders/:id'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {isModalOpen && background && (
@@ -124,18 +131,33 @@ const App = () => {
               </Modal>
             }
           />
-          <Route 
-          path='/feed/:id'
-          element={
-            <Modal
-              title='Заказ'
-              onClose={() => {
-                dispatch(closeModal());
-              }}
-            >
-              <OrderInfo />
-            </Modal>
-          }
+          <Route
+            path='/feed/:id'
+            element={
+              <Modal
+                title='Заказ'
+                onClose={() => {
+                  dispatch(closeModal());
+                }}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:id'
+            element={
+              <Modal
+                title='Заказ'
+                onClose={() => {
+                  dispatch(closeModal());
+                }}
+              >
+                <ProtectedRoute>
+                  <OrderInfo />
+                </ProtectedRoute>
+              </Modal>
+            }
           />
         </Routes>
       )}
