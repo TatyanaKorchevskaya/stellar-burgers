@@ -13,20 +13,17 @@ import {
 import { setTimeout } from 'timers/promises';
 
 export const OrderInfo: FC = () => {
-  const dispatch = useBurgerDispatch();
-
   const params = useParams<{ id: string }>();
   const orderId = params.id;
-  const orders = useBurgerSelector(selectOrders);
-  const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
-  useEffect(() => {
-    Promise.all([dispatch(fetchIngredients()), dispatch(fetchFeed())]);
-  }, []);
 
-  const orderData = orders.find((item) => item._id == orderId);
+  const orders = useBurgerSelector(selectOrders);
+
+  const orderData = orders.find((item) => item.number === parseInt(orderId!));
+
+  const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
 
   /* Готовим данные для отображения */
-  
+
   const orderInfo = useMemo(() => {
     console.log(orders, orderData, ingredients);
     if (!orderData || !ingredients.length) return null;

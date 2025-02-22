@@ -106,6 +106,7 @@ const App = () => {
         />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='/feed/:id' element={<OrderInfo />} />
+        
       </Routes>
 
       {isModalOpen && background && (
@@ -122,6 +123,19 @@ const App = () => {
                 <IngredientDetails />
               </Modal>
             }
+          />
+          <Route 
+          path='/feed/:id'
+          element={
+            <Modal
+              title='Заказ'
+              onClose={() => {
+                dispatch(closeModal());
+              }}
+            >
+              <OrderInfo />
+            </Modal>
+          }
           />
         </Routes>
       )}
