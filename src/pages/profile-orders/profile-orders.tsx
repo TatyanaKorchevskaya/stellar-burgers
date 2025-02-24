@@ -22,4 +22,4 @@ export const ProfileOrders: FC = () => {
     return <Preloader />;
   }
   return <ProfileOrdersUI orders={orders} />;
-};
+}; 
