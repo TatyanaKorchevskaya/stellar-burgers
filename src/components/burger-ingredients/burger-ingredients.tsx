@@ -8,7 +8,6 @@ import { selectIngredients } from '../../slices/stellarBurgerSlice';
 
 export const BurgerIngredients: FC = () => {
   const BurgerIngredientsSelector = useBurgerSelector(selectIngredients);
-  console.log(BurgerIngredientsSelector);
 
   const buns = BurgerIngredientsSelector.filter((item) => item.type == 'bun');
   const mains = BurgerIngredientsSelector.filter((item) => item.type == 'main');

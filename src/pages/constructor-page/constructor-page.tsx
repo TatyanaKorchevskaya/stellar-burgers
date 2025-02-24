@@ -9,7 +9,6 @@ import { FC } from 'react';
 import { selectLoading } from '../../slices/stellarBurgerSlice';
 
 export const ConstructorPage: FC = () => {
-  /** TODO: взять переменную из стора */
   const isIngredientsLoading = useBurgerSelector(selectLoading);
 
   return (

@@ -21,7 +21,7 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
 
   const onOrderClick = () => {
-    // TODO: сделать проверку авторизации
+    if (!isAuthenticated) return navigate('/login', { replace: true });
     if (constructorItems.bun._id && constructorItems.ingredients.length) {
       const ingredientsIds = constructorItems.ingredients.map(
         (item) => item._id

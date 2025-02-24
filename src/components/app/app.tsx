@@ -48,29 +48,19 @@ const App = () => {
       dispatch(init());
     }
   }, []);
-  // TODO: избавиться от костыля
   useEffect(() => {
     dispatch(fetchIngredients());
   }, []);
   useEffect(() => {
     if (!feed.length) {
       dispatch(fetchFeed());
-      console.log('fetchfeed');
     }
   }, []);
-  // useEffect(()=>{
-  //   Promise.all([dispatch(fetchIngredients()), dispatch(fetchFeed())])
-  //   .then(()=>{
-  //     console.log(useBurgerSelector(selectOrders), 'then');
-  //         });
 
-  //   console.log(useBurgerSelector(selectOrders), 'after_then');
-
-  // }, [])
   return (
     <div className={styles.app}>
       <AppHeader />
-      {/* <ConstructorPage /> */}
+
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />

@@ -22,10 +22,7 @@ export const OrderInfo: FC = () => {
 
   const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
 
-  /* Готовим данные для отображения */
-
   const orderInfo = useMemo(() => {
-    console.log(orders, orderData, ingredients);
     if (!orderData || !ingredients.length) return null;
 
     const date = new Date(orderData.createdAt);

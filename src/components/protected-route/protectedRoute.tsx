@@ -20,7 +20,6 @@ export const ProtectedRoute = ({
   const location = useLocation();
 
   if (!isInit) {
-    console.log('p-r pre');
     return <Preloader />;
   }
 

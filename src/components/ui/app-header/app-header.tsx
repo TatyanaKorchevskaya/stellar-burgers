@@ -13,13 +13,22 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName, location }) => (
   <header className={styles.header}>
     <nav className={`${styles.menu} p-4`}>
       <div className={styles.menu_part_left}>
-        <Link to='/'
-        className={location.pathname == '/'?styles.link_active:styles.link}>
-          <BurgerIcon type={'primary'} />
+        <BurgerIcon type={'primary'} />
+        <Link
+          to='/'
+          className={
+            location?.pathname == '/' ? styles.link_active : styles.link
+          }
+        >
           <p className='text text_type_main-default ml-2 mr-10'>Конструктор</p>
         </Link>
-        <Link to='/feed'>
-          <ListIcon type={'primary'} />
+        <ListIcon type={'primary'} />
+        <Link
+          to='/feed'
+          className={
+            location?.pathname == '/feed' ? styles.link_active : styles.link
+          }
+        >
           <p className='text text_type_main-default ml-2'>Лента заказов</p>
         </Link>
       </div>
@@ -28,7 +37,14 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName, location }) => (
       </div>
       <div className={styles.link_position_last}>
         <ProfileIcon type={'primary'} />
-        <Link to='/profile'>
+        <Link
+          to='/profile'
+          className={
+            location?.pathname.includes('profile')
+              ? styles.link_active
+              : styles.link
+          }
+        >
           <p className='text text_type_main-default ml-2'>
             {userName || 'Личный кабинет'}
           </p>
