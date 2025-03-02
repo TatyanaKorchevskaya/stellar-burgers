@@ -26,7 +26,9 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName, location }) => (
         <Link
           to='/feed'
           className={
-            location?.pathname == '/feed' ? styles.link_active : styles.link
+            location?.pathname.includes('/feed')
+              ? styles.link_active
+              : styles.link
           }
         >
           <p className='text text_type_main-default ml-2'>Лента заказов</p>

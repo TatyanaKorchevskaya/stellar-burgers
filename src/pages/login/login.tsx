@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useBurgerDispatch } from '../../services/store';
-import { fetchLoginUser } from '../../slices/stellarBurgerSlice';
+import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
+import { fetchLoginUser, selectUser } from '../../slices/stellarBurgerSlice';
 import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {

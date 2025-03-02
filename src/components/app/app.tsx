@@ -23,7 +23,8 @@ import {
   init,
   selectIsAuthenticated,
   selectIsModalOpened,
-  selectOrders
+  selectOrders,
+  selectUser
 } from '../../slices/stellarBurgerSlice';
 import { ProtectedRoute } from '../protected-route/protectedRoute';
 import { getCookie } from '../../utils/cookie';

@@ -8,7 +8,8 @@ import {
   fetchFeed,
   fetchIngredients,
   selectIngredients,
-  selectOrders
+  selectOrders,
+  selectUserOrders
 } from '../../slices/stellarBurgerSlice';
 import { setTimeout } from 'timers/promises';
 
@@ -17,8 +18,14 @@ export const OrderInfo: FC = () => {
   const orderId = params.id;
 
   const orders = useBurgerSelector(selectOrders);
+  const userOrders = useBurgerSelector(selectUserOrders);
 
-  const orderData = orders.find((item) => item.number === parseInt(orderId!));
+  const allOrders = orders.concat(userOrders!);
+  console.log(allOrders);
+
+  const orderData = allOrders.find(
+    (item) => item.number === parseInt(orderId!)
+  );
 
   const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
 
@@ -64,6 +71,8 @@ export const OrderInfo: FC = () => {
   }, [orderData, ingredients]);
 
   if (!orderInfo) {
+    console.log(orderInfo, orders, userOrders, allOrders, orderData);
+
     return <Preloader />;
   }
 
