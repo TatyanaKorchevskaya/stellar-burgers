@@ -68,16 +68,22 @@ const stellarBurgerSlice = createSlice({
   name: 'stellarBurger',
   initialState,
   reducers: {
-    addIngredient(state, action: PayloadAction<TIngredient>) {
-      if (action.payload.type === 'bun') {
-        state.constructorItems.bun = action.payload;
-      } else {
-        state.constructorItems.ingredients.push({
-          ...action.payload,
+    addIngredient: {
+      prepare: (ingredient: TIngredient) => ({
+        payload: {
+          ...ingredient,
           uniqueId: uuidv4()
-        });
+        }
+      }),
+      reducer: (state, action: PayloadAction<TIngredientUnique>) => {
+        if (action.payload.type === 'bun') {
+          state.constructorItems.bun = action.payload;
+        } else {
+          state.constructorItems.ingredients.push(action.payload);
+        }
       }
     },
+
     closeOrderRequest(state) {
       state.orderRequest = false;
       state.orderModalData = null;

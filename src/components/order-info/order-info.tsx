@@ -1,12 +1,14 @@
 import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
 import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import {
   fetchFeed,
   fetchIngredients,
+  fetchUserOrders,
+  removeUserOrders,
   selectIngredients,
   selectOrders,
   selectUserOrders
@@ -14,6 +16,11 @@ import {
 import { setTimeout } from 'timers/promises';
 
 export const OrderInfo: FC = () => {
+  const dispatch = useBurgerDispatch();
+  useEffect(() => {
+    dispatch(removeUserOrders());
+    Promise.all([dispatch(fetchIngredients()), dispatch(fetchUserOrders())]);
+  }, []);
   const params = useParams<{ id: string }>();
   const orderId = params.id;
 
@@ -21,11 +28,12 @@ export const OrderInfo: FC = () => {
   const userOrders = useBurgerSelector(selectUserOrders);
 
   const allOrders = orders.concat(userOrders!);
-  console.log(allOrders);
-
-  const orderData = allOrders.find(
-    (item) => item.number === parseInt(orderId!)
-  );
+  let orderData: TOrder | undefined;
+  try {
+    orderData = allOrders.find((item) => item.number === parseInt(orderId!));
+  } catch (error) {
+    orderData = orders.find((item) => item.number === parseInt(orderId!));
+  }
 
   const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
 
@@ -71,8 +79,6 @@ export const OrderInfo: FC = () => {
   }, [orderData, ingredients]);
 
   if (!orderInfo) {
-    console.log(orderInfo, orders, userOrders, allOrders, orderData);
-
     return <Preloader />;
   }
 
