@@ -10,8 +10,9 @@ import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const dispatch = useBurgerDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -26,12 +27,13 @@ export const Login: FC = () => {
         localStorage.setItem('refreshToken', payload.refreshToken);
         setCookie('accessToken', payload.accessToken);
         dispatch(getUserThunk());
-      });
+      })
+      .catch((error) => setError('Email или пароль введены неверно.'));
   };
 
   return (
     <LoginUI
-      errorText=''
+      errorText={error}
       email={email}
       setEmail={setEmail}
       password={password}

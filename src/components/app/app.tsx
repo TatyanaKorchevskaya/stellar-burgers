@@ -12,7 +12,7 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
 import { useEffect } from 'react';
 import {
@@ -58,6 +58,8 @@ const App = () => {
     }
   }, []);
 
+  const navigate = useNavigate();
+  const handleModalClose = () => navigate(-1);
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -125,17 +127,12 @@ const App = () => {
         />
       </Routes>
 
-      {isModalOpen && background && (
+      {background && (
         <Routes>
           <Route
             path='/ingredients/:id'
             element={
-              <Modal
-                title='Описание ингредиента'
-                onClose={() => {
-                  dispatch(closeModal());
-                }}
-              >
+              <Modal title='Описание ингредиента' onClose={handleModalClose}>
                 <IngredientDetails />
               </Modal>
             }
@@ -143,12 +140,7 @@ const App = () => {
           <Route
             path='/feed/:id'
             element={
-              <Modal
-                title='Заказ'
-                onClose={() => {
-                  dispatch(closeModal());
-                }}
-              >
+              <Modal title='Заказ' onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }
@@ -156,12 +148,7 @@ const App = () => {
           <Route
             path='/profile/orders/:id'
             element={
-              <Modal
-                title='Заказ'
-                onClose={() => {
-                  dispatch(closeModal());
-                }}
-              >
+              <Modal title='Заказ' onClose={handleModalClose}>
                 <ProtectedRoute>
                   <OrderInfo />
                 </ProtectedRoute>
