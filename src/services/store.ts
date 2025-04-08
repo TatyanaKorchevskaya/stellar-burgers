@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import {
   TypedUseSelectorHook,
@@ -7,10 +7,12 @@ import {
 } from 'react-redux';
 import stellarBurgerSlice from '../slices/stellarBurgerSlice';
 
-const store = configureStore({
-  reducer: {
-    stellarBurger: stellarBurgerSlice
-  },
+export const rootReducer = combineReducers({
+  stellarBurger: stellarBurgerSlice
+});
+
+export const store = configureStore({
+  reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
 
