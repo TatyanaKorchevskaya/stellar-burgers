@@ -15,6 +15,17 @@ describe('cypress test', () => {
                     url: `${API_URL}/ingredients`
                 }, ingredients
             ).as('getIngedients');
-        })
-    })
+        });
+    });
+
+    // it('testing constructor', ()=>{
+
+    // });
+
+    it('testing open and close modal ingredient', ()=>{
+       const ingredientElement =  cy.get('[data-cy="bun_0"]')
+       ingredientElement.click();
+       cy.get('[data-cy=modalIngredient]');
+       cy.get('[data-cy=modalCloseBtn]').click();
+    });
 })
