@@ -137,7 +137,7 @@ export type TRegisterData = {
   password: string;
 };
 
-export type TAuthResponse = TServerResponse<{
+type TAuthResponse = TServerResponse<{
   refreshToken: string;
   accessToken: string;
   user: TUser;
