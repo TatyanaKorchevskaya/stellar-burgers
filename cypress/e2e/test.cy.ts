@@ -1,4 +1,5 @@
 const API_URL = 'https://norma.nomoreparties.space/api';
+
 beforeEach(() => {
     window.localStorage.setItem('refreshToken', 'testRefreshToken');
     cy.setCookie('accessToken', 'testAccessToken');
@@ -12,7 +13,7 @@ beforeEach(() => {
         ).as('getUser');
     });
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
     cy.wait('@getUser')
 })
 
@@ -22,7 +23,9 @@ afterEach(() => {
 });
 
 describe('cypress test', () => {
+    
     it('fetch ingredients', () => {
+        cy.visit('/');
         cy.fixture('ingredients.json').then((ingredients) => {
             cy.intercept(
                 {
@@ -36,6 +39,7 @@ describe('cypress test', () => {
 
 
     it('testing open and close modal ingredient', () => {
+        cy.visit('/');
         cy.fixture('ingredients.json').then((ingredients) => {
             cy.intercept(
                 {
@@ -56,6 +60,7 @@ describe('cypress test', () => {
     });
 
     it('testing orders', () => {
+        cy.visit('/');
         cy.reload();
 
         cy.fixture('orders.json').then((orders) => {
