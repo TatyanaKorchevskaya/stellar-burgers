@@ -9,17 +9,27 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 
 import { TBurgerIngredientUIProps } from './type';
+import { useBurgerDispatch } from '../../../services/store';
+import { openModal } from '../../../slices/stellarBurgerSlice';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
-  ({ ingredient, count, handleAdd, locationState }) => {
+  ({ ingredient, count, handleAdd, locationState, index }) => {
     const { image, price, name, _id } = ingredient;
 
+    const dispatch = useBurgerDispatch();
+    const handleClick = () => {
+      dispatch(openModal());
+    };
     return (
       <li className={styles.container}>
         <Link
           className={styles.article}
+          data-cy={
+            ingredient.type === 'bun' ? `bun_${index}` : `ingredient_${index}`
+          }
           to={`/ingredients/${_id}`}
           state={locationState}
+          onClick={handleClick}
         >
           {count && <Counter count={count} />}
           <img className={styles.img} src={image} alt='картинка ингредиента.' />
@@ -33,6 +43,7 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
           text='Добавить'
           onClick={handleAdd}
           extraClass={`${styles.addButton} mt-8`}
+          data-cy={'add'}
         />
       </li>
     );

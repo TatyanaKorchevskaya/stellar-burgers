@@ -1,23 +1,42 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
+import { useBurgerDispatch, useBurgerSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import {
+  fetchFeed,
+  fetchIngredients,
+  fetchUserOrders,
+  removeUserOrders,
+  selectIngredients,
+  selectOrders,
+  selectUserOrders
+} from '../../slices/stellarBurgerSlice';
+import { setTimeout } from 'timers/promises';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useBurgerDispatch();
+  useEffect(() => {
+    dispatch(removeUserOrders());
+    Promise.all([dispatch(fetchIngredients()), dispatch(fetchUserOrders())]);
+  }, []);
+  const params = useParams<{ id: string }>();
+  const orderId = params.id;
 
-  const ingredients: TIngredient[] = [];
+  const orders = useBurgerSelector(selectOrders);
+  const userOrders = useBurgerSelector(selectUserOrders);
 
-  /* Готовим данные для отображения */
+  const allOrders = orders.concat(userOrders!);
+  let orderData: TOrder | undefined;
+  try {
+    orderData = allOrders.find((item) => item.number === parseInt(orderId!));
+  } catch (error) {
+    orderData = orders.find((item) => item.number === parseInt(orderId!));
+  }
+
+  const ingredients: TIngredient[] = useBurgerSelector(selectIngredients);
+
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
